@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    # docker run -d --name postgres-imagedata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=imageData -p 5432:5432 postgres:13
+    url: jdbc:postgresql://localhost:5432/imageData
+    username: dbuser
+    password: postgres
+
