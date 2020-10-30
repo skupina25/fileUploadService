@@ -13,7 +13,7 @@ env:
     - DOCKER_IMAGE="$DOCKER_USERNAME"/imageuploadservice:1.0.0-SNAPSHOT-$TRAVIS_JOB_NUMBER
 before_install:
   - chmod +x mvnw
-  - docker create network rso
+  - docker network create rso
   - docker run -d --network rso  --name postgres-imagedata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=imageData -p 5432:5432 postgres:13
 script:
   - mvn clean package -U -Dmaven.skip.test=true
