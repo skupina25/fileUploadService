@@ -1,4 +1,4 @@
-package fri.uni_lj.si.imageUploadService;
+package fri.uni_lj.si.fileUploadService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

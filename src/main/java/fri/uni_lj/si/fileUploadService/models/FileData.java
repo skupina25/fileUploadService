@@ -1,4 +1,4 @@
-package fri.uni_lj.si.imageUploadService.models;
+package fri.uni_lj.si.fileUploadService.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

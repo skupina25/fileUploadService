@@ -1,7 +1,7 @@
-package fri.uni_lj.si.imageUploadService.api;
+package fri.uni_lj.si.fileUploadService.api;
 
-import fri.uni_lj.si.imageUploadService.models.FileData;
-import fri.uni_lj.si.imageUploadService.services.FileService;
+import fri.uni_lj.si.fileUploadService.models.FileData;
+import fri.uni_lj.si.fileUploadService.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,22 +21,22 @@ public class FileController {
     }
 
     @GetMapping
-    public List<FileData> getImages() {
+    public List<FileData> getFiles() {
         return fileService.getFiles();
     }
 
     @PostMapping
-    public FileData insertImageData (@RequestBody FileData i) {
+    public FileData insertFileData (@RequestBody FileData i) {
         return fileService.insertFileData(i);
     }
 
     @GetMapping(path = "{id}")
-    public FileData getImageDataById (@PathVariable("id") UUID id) {
+    public FileData getFileDataById (@PathVariable("id") UUID id) {
         return fileService.getFileDataById(id).orElse(null);
     }
 
     @DeleteMapping(path = "{id}")
-    public void deleteImageDataById (@PathVariable("id") UUID id) {
+    public void deleteFileDataById (@PathVariable("id") UUID id) {
         fileService.deleteFileDataById(id);
     }
 }

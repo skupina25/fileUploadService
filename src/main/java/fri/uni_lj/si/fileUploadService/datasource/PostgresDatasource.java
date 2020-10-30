@@ -1,4 +1,4 @@
-package fri.uni_lj.si.imageUploadService.datasource;
+package fri.uni_lj.si.fileUploadService.datasource;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;

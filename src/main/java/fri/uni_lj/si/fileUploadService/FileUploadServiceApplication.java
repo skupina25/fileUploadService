@@ -1,4 +1,4 @@
-package fri.uni_lj.si.imageUploadService;
+package fri.uni_lj.si.fileUploadService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
-package fri.uni_lj.si.imageUploadService.services;
+package fri.uni_lj.si.fileUploadService.services;
 
-import fri.uni_lj.si.imageUploadService.models.FileData;
-import fri.uni_lj.si.imageUploadService.models.FileDataDao;
+import fri.uni_lj.si.fileUploadService.models.FileData;
+import fri.uni_lj.si.fileUploadService.models.FileDataDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
