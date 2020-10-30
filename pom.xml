@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fri.uni_lj.si</groupId>
-	<artifactId>imageUploadService</artifactId>
+	<artifactId>fileUploadService</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>imageUploadService</name>
-	<description>Micro service for image upload to Amazon S3</description>
+	<name>fileUploadService</name>
+	<description>Micro service for file upload to Amazon S3</description>
 
 	<properties>
 		<java.version>1.8</java.version>

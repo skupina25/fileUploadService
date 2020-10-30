@@ -4,15 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.UUID;
 
-public class ImageData {
+public class FileData {
 
     private final UUID id;
     private String title;
     private String description;
     private String uri;
 
-    public ImageData(@JsonProperty("id") UUID id, @JsonProperty("title") String title,
-                     @JsonProperty("description") String description, @JsonProperty("uri") String uri) {
+    public FileData(@JsonProperty("id") UUID id, @JsonProperty("title") String title,
+                    @JsonProperty("description") String description, @JsonProperty("uri") String uri) {
         this.id = id;
         this.title = title;
         this.description = description;
