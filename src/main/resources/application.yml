@@ -1,6 +1,7 @@
 app:
   datasource:
-    # docker run -d --name postgres-imagedata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=imageData -p 5432:5432 postgres:13
+    # docker create network rso
+    # docker run -d --network rso  --name postgres-imagedata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=imageData -p 5432:5432 postgres:13
     # docker build --tag "zp8358/imageuploadservice:30-10-2020" .
     # docker run --network rso --name image-upload-service -p 8080:8080 <imageId>
     jdbc-url: jdbc:postgresql://postgres-imagedata:5432/imageData
