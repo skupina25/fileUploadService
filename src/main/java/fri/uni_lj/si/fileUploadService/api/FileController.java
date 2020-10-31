@@ -2,9 +2,13 @@ package fri.uni_lj.si.fileUploadService.api;
 
 import fri.uni_lj.si.fileUploadService.models.FileData;
 import fri.uni_lj.si.fileUploadService.services.FileService;
+import fri.uni_lj.si.fileUploadService.services.FileStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,9 +29,18 @@ public class FileController {
         return fileService.getFiles();
     }
 
-    @PostMapping
-    public FileData insertFileData (@RequestBody FileData i) {
-        return fileService.insertFileData(i);
+    @PostMapping(
+            path = "upload",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    /*public void insertFileData (@RequestBody FileData fd, @RequestParam("fileToUpload") MultipartFile file) {
+        fileService.insertFileData(fd, file);
+    } */
+
+    public FileData insertFileData (@RequestParam("file") MultipartFile file) {
+        FileData fd = new FileData(UUID.randomUUID(), file.getOriginalFilename(), "");
+        return fileService.insertFileData(fd, file);
     }
 
     @GetMapping(path = "{id}")

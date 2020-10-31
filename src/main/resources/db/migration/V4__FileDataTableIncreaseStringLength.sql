@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS fileData;
+DROP TABLE IF EXISTS imageData;
+
+CREATE TABLE fileData (
+  id UUID NOT NULL PRIMARY KEY,
+  title VARCHAR(200),
+  uri VARCHAR(500)
+);

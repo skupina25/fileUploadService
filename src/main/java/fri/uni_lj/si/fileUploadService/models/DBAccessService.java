@@ -20,32 +20,30 @@ public class DBAccessService implements FileDataDao {
 
     @Override
     public FileData insertFileData(UUID id, FileData i) {
-        final String sql = "INSERT INTO fileData (id, title, description, uri) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, new Object[] { id, i.getTitle(), i.getDescription(), i.getUri() });
-        return new FileData(id, i.getTitle(), i.getDescription(), i.getUri());
+        final String sql = "INSERT INTO fileData (id, title, uri) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, new Object[] { id, i.getTitle(), i.getUri() });
+        return new FileData(id, i.getTitle(), i.getUri());
     }
 
     @Override
     public List<FileData> getFiles() {
-        final String sql = "SELECT id, title, description, uri FROM fileData";
+        final String sql = "SELECT id, title, uri FROM fileData";
         return jdbcTemplate.query(sql, (resultSet, i) -> {
             UUID fid = UUID.fromString(resultSet.getString("id"));
             String title = resultSet.getString("title");
-            String desc = resultSet.getString("description");
             String uri = resultSet.getString("uri");
-            return new FileData(fid, title, desc, uri);
+            return new FileData(fid, title, uri);
         });
     }
 
     @Override
     public Optional<FileData> getFileById(UUID id) {
-        final String sql = "SELECT id, title, description, uri FROM fileData WHERE id = ?";
+        final String sql = "SELECT id, title, uri FROM fileData WHERE id = ?";
         FileData data = jdbcTemplate.queryForObject(sql, new Object[] { id }, (resultSet, i) -> {
             UUID fid = UUID.fromString(resultSet.getString("id"));
             String title = resultSet.getString("title");
-            String desc = resultSet.getString("description");
             String uri = resultSet.getString("uri");
-            return new FileData(fid, title, desc, uri);
+            return new FileData(fid, title, uri);
         });
         return Optional.ofNullable(data);
     }
