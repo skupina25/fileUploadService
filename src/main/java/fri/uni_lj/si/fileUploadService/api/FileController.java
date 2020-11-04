@@ -34,9 +34,6 @@ public class FileController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    /*public void insertFileData (@RequestBody FileData fd, @RequestParam("fileToUpload") MultipartFile file) {
-        fileService.insertFileData(fd, file);
-    } */
 
     public FileData insertFileData (@RequestParam("file") MultipartFile file) {
         FileData fd = new FileData(UUID.randomUUID(), file.getOriginalFilename(), "");
