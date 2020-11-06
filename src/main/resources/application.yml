@@ -4,7 +4,7 @@ app:
     # docker run -d --network rso  --name postgres-filedata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=fileData -p 5432:5432 postgres:13
     # docker build --tag "zp8358/fileuploadservice:30-10-2020" .
     # docker run --network rso --name file-upload-service -p 8080:8080 <imageId>
-    jdbc-url: jdbc:postgresql://localhost:5432/fileData
+    jdbc-url: ${JDBCURL}
     username: dbuser
     password: postgres
     pool-size: 30
