@@ -1,6 +1,7 @@
 package fri.uni_lj.si.fileUploadService.models;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -21,8 +22,12 @@ public class DBAccessService implements FileDataDao {
     @Override
     public FileData insertFileData(UUID id, FileData i) {
         final String sql = "INSERT INTO fileData (id, title, uri) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, new Object[] { id, i.getTitle(), i.getUri() });
-        return new FileData(id, i.getTitle(), i.getUri());
+        try {
+            jdbcTemplate.update(sql, new Object[] { id, i.getTitle(), i.getUri() });
+            return new FileData(id, i.getTitle(), i.getUri());
+        } catch (Exception e) {
+            return new FileData(id, "fail", "fail");
+        }
     }
 
     @Override
@@ -39,13 +44,17 @@ public class DBAccessService implements FileDataDao {
     @Override
     public Optional<FileData> getFileById(UUID id) {
         final String sql = "SELECT id, title, uri FROM fileData WHERE id = ?";
-        FileData data = jdbcTemplate.queryForObject(sql, new Object[] { id }, (resultSet, i) -> {
-            UUID fid = UUID.fromString(resultSet.getString("id"));
-            String title = resultSet.getString("title");
-            String uri = resultSet.getString("uri");
-            return new FileData(fid, title, uri);
-        });
-        return Optional.ofNullable(data);
+        try {
+            FileData data = jdbcTemplate.queryForObject(sql, new Object[] { id }, (resultSet, i) -> {
+                UUID fid = UUID.fromString(resultSet.getString("id"));
+                String title = resultSet.getString("title");
+                String uri = resultSet.getString("uri");
+                return new FileData(fid, title, uri);
+            });
+            return Optional.ofNullable(data);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
