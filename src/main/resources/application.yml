@@ -1,9 +1,5 @@
 app:
   datasource:
-    # docker network create rso
-    # docker run -d --network rso  --name postgres-filedata -e POSTGRES_USER=dbuser -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=fileData -p 5432:5432 postgres:13
-    # docker build --tag "zp8358/fileuploadservice:30-10-2020" .
-    # docker run --network rso -e AWSAPIKEY=AKIAVRAK4F4A3HIDEMEL -e AWSAPISECRET=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 -e JDBCURL=jdbc:postgresql://postgres-filedata:5432/fileData --name fileuploadservice -p 8080:8080 <imageId>
     jdbc-url: ${JDBCURL}
     username: dbuser
     password: postgres
