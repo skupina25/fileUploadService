@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: file-upload-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: file-upload-service
+  template:
+    metadata:
+      labels:
+        app: file-upload-service
+    spec:
+      containers:
+        - image: prporso2021/image-catalog:2020-10-30-02-45-03
+          name: file-upload-service
+          env:
+            - name: DBURL
+              value: jdbc:postgresql://pg-rso2021.postgres.database.azure.com:5432/postgres
+            - name: DBUSERNAME
+              value: skrbnik@pg-rso2021
+            - name: DBPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-pass
+                  key: DBPASSWORD
+            - name: AWSAPIKEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-api-key
+                  key: AWSAPIKEY
+            - name: AWSAPISECRET
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret-key
+                  key: AWSAPISECRET
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: file-upload-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: file-upload-service
