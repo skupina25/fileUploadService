@@ -1,1 +1,1 @@
-http://localhost:8080/v1/files/mejnik1
+http://20.73.137.91:8080/v1/files

@@ -19,7 +19,7 @@ public class Mejnik1 {
         this.opis_projekta = "Najin projekt implementira aplikacijo za task handling (podobno kot jira).";
 
         ArrayList<String> ms = new ArrayList<>();
-        ms.add("http://1.2.3.4/v1/files");
+        ms.add("http://20.73.137.91:8080/v1/files");
         ms.add("http://1.2.3.4/v1/tasks");
         this.mikrostoritve = ms;
 

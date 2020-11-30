@@ -13,7 +13,7 @@ spec:
         app: file-upload-service
     spec:
       containers:
-        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-28.1
+        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-29.1
           name: file-upload-service
           env:
             - name: DBURL
@@ -39,6 +39,18 @@ spec:
             - containerPort: 8080
               name: server
               protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /v1/files/checks/health
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /v1/files/checks/health
+              port: server
+            initialDelaySeconds: 20
+            periodSeconds: 3
 
 ---
 
