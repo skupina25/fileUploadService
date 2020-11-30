@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    consul:
+      config:
+        fail-fast: false
+      discovery:
+        fail-fast: false
