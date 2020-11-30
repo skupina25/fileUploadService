@@ -1,3 +1,3 @@
-# imageUploadService
+# fileUploadService
 
-## Avtorja: Žan Pečovnik in Žiga Kleine
+## Avtorja: Žan Pecovnik in Žiga Kleine

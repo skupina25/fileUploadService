@@ -1,6 +1,7 @@
 package fri.uni_lj.si.fileUploadService.api;
 
 import fri.uni_lj.si.fileUploadService.models.FileData;
+import fri.uni_lj.si.fileUploadService.models.Mejnik1;
 import fri.uni_lj.si.fileUploadService.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,10 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping("api/v1/files")
+@RequestMapping("v1/files")
 @CrossOrigin("*")
 public class FileController {
 
@@ -22,6 +22,11 @@ public class FileController {
     @Autowired
     public FileController(FileService is) {
         this.fileService = is;
+    }
+
+    @GetMapping(path = "mejnik1")
+    public Mejnik1 getDataMejnik1() {
+        return new Mejnik1();
     }
 
     @GetMapping
@@ -36,7 +41,8 @@ public class FileController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<Object> insertFileData (@RequestParam("file") MultipartFile file) {
-        FileData fd = new FileData(UUID.randomUUID(), file.getOriginalFilename(), "");
+        FileData fd = new FileData();
+        fd.setTitle(file.getOriginalFilename());
         FileData insertedFileData = fileService.insertFileData(fd, file);
 
         if (insertedFileData.getTitle().equals("fail") && insertedFileData.getUri().equals("fail")) {
@@ -46,12 +52,12 @@ public class FileController {
     }
 
     @GetMapping(path = "{id}")
-    public ResponseEntity<Object> getFileDataById (@PathVariable("id") UUID id) {
+    public ResponseEntity<Object> getFileDataById (@PathVariable("id") Long id) {
         if (id.toString().equals("")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Id of file is a required param");
         }
 
-        FileData fd = fileService.getFileDataById(id).orElse(null);
+        FileData fd = fileService.getFileDataById(id);
 
         if (fd == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
@@ -60,14 +66,15 @@ public class FileController {
     }
 
     @DeleteMapping(path = "{id}")
-    public ResponseEntity<Object> deleteFileDataById (@PathVariable("id") UUID id) {
+    public ResponseEntity<Object> deleteFileDataById (@PathVariable("id") Long id) {
         if (id.toString().equals("")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Id of file is a required param");
         }
 
-        int isDeleted = fileService.deleteFileDataById(id);
+        fileService.deleteFileDataById(id);
 
-        if (isDeleted == 1) {
+        FileData testDeleted = fileService.getFileDataById(id);
+        if (testDeleted == null) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("FileData with id: " + id + " was succesfully deleted.");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FileData with id: " + id + " was not found.");

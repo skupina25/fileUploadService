@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS fileData;
+
+CREATE TABLE fileData (
+  id BIGINT NOT NULL PRIMARY KEY,
+  title VARCHAR(200),
+  uri VARCHAR(500)
+);

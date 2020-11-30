@@ -1,6 +1,0 @@
-app:
-  datasource:
-    jdbc-url: ${JDBCURL}
-    username: dbuser
-    password: postgres
-    pool-size: 30

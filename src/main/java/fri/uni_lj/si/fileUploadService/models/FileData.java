@@ -1,24 +1,20 @@
 package fri.uni_lj.si.fileUploadService.models;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.*;
 
-import java.util.UUID;
-
+@Entity
+@Table(name = "fileData")
 public class FileData {
 
-    private final UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column
     private String title;
+    @Column
     private String uri;
 
-    public FileData(@JsonProperty("id") UUID id, @JsonProperty("title") String title, @JsonProperty("uri") String uri) {
-        this.id = id;
-        this.title = title;
-        this.uri = uri;
-    }
-
-    public UUID getId() {
-        return id;
-    }
+    public FileData() {}
 
     public String getTitle() {
         return title;
@@ -34,5 +30,9 @@ public class FileData {
 
     public void setUri(String uri) {
         this.uri = uri;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

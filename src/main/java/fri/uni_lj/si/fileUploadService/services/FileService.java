@@ -1,20 +1,13 @@
 package fri.uni_lj.si.fileUploadService.services;
 
-import com.amazonaws.regions.Regions;
 import fri.uni_lj.si.fileUploadService.bucket.BucketName;
 import fri.uni_lj.si.fileUploadService.models.FileData;
-import fri.uni_lj.si.fileUploadService.models.FileDataDao;
-import org.apache.http.entity.ContentType;
+import fri.uni_lj.si.fileUploadService.repository.FileDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static org.apache.http.entity.ContentType.*;
@@ -22,21 +15,24 @@ import static org.apache.http.entity.ContentType.*;
 @Service
 public class FileService {
 
-    private final FileDataDao fileDataDao;
+    @Autowired
+    private FileDataRepository fileDataRepository;
     private final FileStore fileStore;
 
     @Autowired
-    public FileService(@Qualifier("postgres") FileDataDao fileDataDao, FileStore fileStore) {
-        this.fileDataDao = fileDataDao;
+    public FileService(FileStore fileStore) {
         this.fileStore = fileStore;
     }
 
     public List<FileData> getFiles() {
-        return fileDataDao.getFiles();
+        return fileDataRepository.findAll();
     }
 
-    public Optional<FileData> getFileDataById (UUID id) {
-        return fileDataDao.getFileById(id);
+    public FileData getFileDataById (Long id) {
+        Optional<FileData> fileData = fileDataRepository.findById(id);
+        if (fileData.isPresent())
+            return fileData.get();
+        return null;
     }
 
     public FileData insertFileData (FileData fd, MultipartFile file) {
@@ -44,15 +40,15 @@ public class FileService {
         String regionName = "eu-central-1";
 
         fd.setUri("https://" + BucketName.BUCKET_NAME.getBucketName() + ".s3." + regionName + ".amazonaws.com/files/" + fName);
-        return fileDataDao.insertFileData(fd);
+        return fileDataRepository.save(fd);
     }
 
-    public int deleteFileDataById (UUID id) {
-        Optional<FileData> fileData = fileDataDao.getFileById(id);
+    public void deleteFileDataById (Long id) {
+        Optional<FileData> fileData = fileDataRepository.findById(id);
         if (fileData.isPresent()) {
             fileStore.deleteFile(BucketName.BUCKET_NAME.getBucketName(), fileData.get().getUri().split("amazonaws.com/")[1]);
         }
-        return fileDataDao.deleteFileDataById(id);
+        fileDataRepository.deleteById(id);
     }
 
     /*
