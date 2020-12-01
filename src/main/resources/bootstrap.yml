@@ -2,6 +2,13 @@ spring:
   cloud:
     consul:
       config:
+        enabled: true
         fail-fast: false
+        watch:
+          enabled: true
       discovery:
         fail-fast: false
+        health-check-path: /v1/files/checks/health
+        health-check-interval: 15s
+      host: 34.107.76.94
+      port: 80

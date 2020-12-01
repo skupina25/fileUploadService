@@ -1,5 +1,6 @@
 package fri.uni_lj.si.fileUploadService.api;
 
+import fri.uni_lj.si.fileUploadService.config.RestProperties;
 import fri.uni_lj.si.fileUploadService.models.FileData;
 import fri.uni_lj.si.fileUploadService.models.Mejnik1;
 import fri.uni_lj.si.fileUploadService.services.FileService;
