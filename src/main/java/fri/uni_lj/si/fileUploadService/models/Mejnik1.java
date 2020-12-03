@@ -20,7 +20,7 @@ public class Mejnik1 {
 
         ArrayList<String> ms = new ArrayList<>();
         ms.add("http://35.234.89.180:8080/v1/files");
-        ms.add("http://1.2.3.4/v1/tasks");
+        ms.add("http://35.246.129.252:8081/api/v1/board");
         this.mikrostoritve = ms;
 
         ArrayList<String> gh = new ArrayList<>();

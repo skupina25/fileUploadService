@@ -14,6 +14,11 @@ spec:
     spec:
       containers:
         - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-31.1
+          resources:
+            requests:
+              cpu: "50m"
+            limits:
+              cpu: "70m"
           name: file-upload-service
           env:
             - name: DBURL
