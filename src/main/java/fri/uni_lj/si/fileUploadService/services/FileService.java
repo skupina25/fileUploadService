@@ -1,7 +1,11 @@
 package fri.uni_lj.si.fileUploadService.services;
 
+import com.amazonaws.services.rekognition.AmazonRekognition;
+import com.amazonaws.services.rekognition.AmazonRekognitionClientBuilder;
+import com.amazonaws.services.rekognition.model.*;
 import fri.uni_lj.si.fileUploadService.bucket.BucketName;
 import fri.uni_lj.si.fileUploadService.models.FileData;
+import fri.uni_lj.si.fileUploadService.models.RecognitionLabel;
 import fri.uni_lj.si.fileUploadService.repository.FileDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.retry.annotation.Backoff;
@@ -12,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.apache.http.entity.ContentType.*;
 
@@ -21,10 +26,12 @@ public class FileService {
     @Autowired
     private FileDataRepository fileDataRepository;
     private final FileStore fileStore;
+    private final AmazonRekognition rekognition;
 
     @Autowired
-    public FileService(FileStore fileStore) {
+    public FileService(FileStore fileStore, AmazonRekognition rek) {
         this.fileStore = fileStore;
+        rekognition = rek;
     }
 
     @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 100))
@@ -53,8 +60,29 @@ public class FileService {
         String fName = pushFileToS3(file);
         String regionName = "eu-central-1";
 
-        fd.setUri("https://" + BucketName.BUCKET_NAME.getBucketName() + ".s3." + regionName + ".amazonaws.com/files/" + fName);
+        fd.setUri("https://" + BucketName.BUCKET_NAME.getBucketName() + ".s3." + regionName + ".amazonaws.com/" + fName);
         return fileDataRepository.save(fd);
+    }
+
+    public List<RecognitionLabel> detectFromImg(FileData fd) {
+        String imgName = fd.getUri().split("\\.amazonaws\\.com/")[1];
+
+        DetectLabelsRequest req = new DetectLabelsRequest()
+                .withImage(new Image()
+                    .withS3Object(new S3Object()
+                            .withName(imgName)
+                            .withBucket(BucketName.BUCKET_NAME.getBucketName())))
+                .withMaxLabels(10)
+                .withMinConfidence(75F);
+        try {
+            DetectLabelsResult result = rekognition.detectLabels(req);
+            List<RecognitionLabel> labels = result.getLabels().stream()
+                    .map((label) -> new RecognitionLabel(label.getName(), label.getConfidence()))
+                    .collect(Collectors.toList());
+            return labels;
+        } catch (AmazonRekognitionException e) {
+            throw new IllegalStateException("Failed to get labels for img", e);
+        }
     }
 
     public void deleteFileDataById (Long id) {
@@ -81,7 +109,7 @@ public class FileService {
         Map<String, String> metadata = extractMetadata(file);
 
         // Store the file to S3 and save data to DB.
-        String path = String.format("%s/files", BucketName.BUCKET_NAME.getBucketName());
+        String path = String.format("%s", BucketName.BUCKET_NAME.getBucketName());
         String fileName = formatNewFileName(file, UUID.randomUUID());
 
         try {
@@ -116,4 +144,6 @@ public class FileService {
             throw new IllegalStateException("Can not upload empty file [" + file.getSize() + "]");
         }
     }
+
+
 }

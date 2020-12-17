@@ -1,6 +1,5 @@
 package fri.uni_lj.si.fileUploadService.api;
 
-import fri.uni_lj.si.fileUploadService.config.RestProperties;
 import fri.uni_lj.si.fileUploadService.models.FileData;
 import fri.uni_lj.si.fileUploadService.models.Mejnik1;
 import fri.uni_lj.si.fileUploadService.services.FileService;
@@ -79,5 +78,15 @@ public class FileController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("FileData with id: " + id + " was succesfully deleted.");
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FileData with id: " + id + " was not found.");
+    }
+
+    @GetMapping(path = "detect/{id}")
+    public ResponseEntity<Object> detectInPhoto(@PathVariable("id") Long id) {
+        FileData fd = fileService.getFileDataById(id);
+        if (fd == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("FileData with id: " + id + " was not found.");
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(fileService.detectFromImg(fd));
     }
 }
