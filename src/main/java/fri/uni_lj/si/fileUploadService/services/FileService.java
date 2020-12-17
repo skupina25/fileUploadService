@@ -4,6 +4,9 @@ import fri.uni_lj.si.fileUploadService.bucket.BucketName;
 import fri.uni_lj.si.fileUploadService.models.FileData;
 import fri.uni_lj.si.fileUploadService.repository.FileDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Recover;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,8 +27,19 @@ public class FileService {
         this.fileStore = fileStore;
     }
 
+    @Retryable(maxAttempts = 2, backoff = @Backoff(delay = 100))
     public List<FileData> getFiles() {
         return fileDataRepository.findAll();
+    }
+    
+    @Recover
+    public List<FileData> getFilesRecover() {
+        List<FileData> recoverList = new ArrayList<>();
+        FileData fd = new FileData();
+        fd.setTitle("Recovery title");
+        fd.setUri("https://www.planetware.com/wpimages/2020/02/france-in-pictures-beautiful-places-to-photograph-eiffel-tower.jpg");
+        recoverList.add(fd);
+        return recoverList;
     }
 
     public FileData getFileDataById (Long id) {

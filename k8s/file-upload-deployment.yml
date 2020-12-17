@@ -13,7 +13,7 @@ spec:
         app: file-upload-service
     spec:
       containers:
-        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-31.1
+        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-32.1
           resources:
             requests:
               cpu: "50m"
