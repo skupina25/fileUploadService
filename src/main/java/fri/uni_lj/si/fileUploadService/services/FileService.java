@@ -72,7 +72,7 @@ public class FileService {
                     .withS3Object(new S3Object()
                             .withName(imgName)
                             .withBucket(BucketName.BUCKET_NAME.getBucketName())))
-                .withMaxLabels(10)
+                .withMaxLabels(5)
                 .withMinConfidence(75F);
         try {
             DetectLabelsResult result = rekognition.detectLabels(req);
