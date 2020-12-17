@@ -44,18 +44,18 @@ spec:
             - containerPort: 8080
               name: server
               protocol: TCP
-          #livenessProbe:
-           # httpGet:
-            #  path: /v1/files/checks/health
-             # port: server
-            #initialDelaySeconds: 60
-            #periodSeconds: 3
-          #readinessProbe:
-           # httpGet:
-            #  path: /v1/files/checks/health
-             # port: server
-            #initialDelaySeconds: 60
-            #periodSeconds: 3
+          livenessProbe:
+            httpGet:
+              path: /v1/files/checks/health/liveness
+              port: server
+            initialDelaySeconds: 1800
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /v1/files/checks/health/readiness
+              port: server
+            initialDelaySeconds: 1800
+            periodSeconds: 3
 
 ---
 
