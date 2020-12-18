@@ -1,0 +1,14 @@
+schema {
+    query: Query
+}
+
+type Query {
+    allFiles: [File]
+    fileById(id: Int): File
+}
+
+type File {
+    id: Int!
+    title: String
+    uri: String
+}
