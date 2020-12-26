@@ -13,12 +13,12 @@ spec:
         app: file-upload-service
     spec:
       containers:
-        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-32.1
-          resources:
-            requests:
-              cpu: "50m"
-            limits:
-              cpu: "70m"
+        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-35.1
+          #resources:
+            #requests:
+              #cpu: "50m"
+            #limits:
+              #cpu: "70m"
           name: file-upload-service
           env:
             - name: DBURL
@@ -48,13 +48,13 @@ spec:
             httpGet:
               path: /v1/files/checks/health/liveness
               port: server
-            initialDelaySeconds: 1800
+            initialDelaySeconds: 180
             periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /v1/files/checks/health/readiness
               port: server
-            initialDelaySeconds: 1800
+            initialDelaySeconds: 180
             periodSeconds: 3
 
 ---
