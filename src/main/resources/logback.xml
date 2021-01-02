@@ -4,8 +4,8 @@
         <Console name="STDOUT" target="SYSTEM_OUT">
             <PatternLayout pattern="%d %p %marker %m %X %ex %n"/>
         </Console>
-        <Socket name="LOGSTASH" host="10d50e42-8d8a-4f8a-b779-9d086cba9af7-ls.logit.io"
-                port="15934" protocol="udp">
+        <Socket name="LOGSTASH" host="d58301ca-0586-4185-aad5-152cf6e02fec-ls.logit.io"
+                port="11005" protocol="udp">
             <JSONLayout complete="false" compact="true" eventEol="true" charset="UTF-8" properties="true"/>
         </Socket>
     </Appenders>
