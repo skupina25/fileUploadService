@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("v1/graphql/files")
+@RequestMapping("v1/files/graphql")
 @CrossOrigin("*")
 public class GraphqlFileController {
     @Autowired

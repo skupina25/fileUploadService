@@ -13,7 +13,7 @@ spec:
         app: file-upload-service
     spec:
       containers:
-        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-36.1
+        - image: zp8358/fileuploadservice:1.0.0-SNAPSHOT-37.1
           #resources:
             #requests:
               #cpu: "50m"
@@ -48,13 +48,13 @@ spec:
             httpGet:
               path: /v1/files/checks/health/liveness
               port: server
-            initialDelaySeconds: 180
+            initialDelaySeconds: 120
             periodSeconds: 3
           readinessProbe:
             httpGet:
               path: /v1/files/checks/health/readiness
               port: server
-            initialDelaySeconds: 180
+            initialDelaySeconds: 120
             periodSeconds: 3
 
 ---
@@ -64,7 +64,7 @@ kind: Service
 metadata:
   name: file-upload-service
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
     - port: 8080
       protocol: TCP
